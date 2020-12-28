@@ -19,3 +19,10 @@ SF_PASSWORD -> Salesforce Password
 SF_TOKEN -> Salesforce Security Token
 
 And then add the code from Twilio Function.txt 
+
+# SF Configuration:
+1. You need to create a Connected App to establish a connection between Salesforce and Twilio.
+
+2. You need to configure the Metadata by providing AccountSid, Auth Token, From and To.
+
+3. Use the LWC component in Utility bar and LWC Notification component in Home/Record Page.
