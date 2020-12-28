@@ -1,0 +1,137 @@
+exports.handler = function(context, event, callback) {
+
+    //================================================================================
+    // Modules
+    //================================================================================
+
+    var querystring = require('querystring');
+    var request = require('request');
+
+    //================================================================================
+    // Context Variables
+    //================================================================================
+
+    // Are we using a sandbox or not
+    var isSandbox = (context.SF_IS_SANDBOX == 'false');
+
+    //Consumer Key from Salesforce Connected app
+    var clientId = context.SF_CONSUMER_KEY;
+
+    //Consumer Secrect from Salesforce Connected app
+    var clientSecret = context.SF_CONSUMER_SECRET;
+
+    //The salesforce username;
+    var sfUserName = context.SF_USERNAME;
+
+    //The salesforce password
+    var sfPassword = context.SF_PASSWORD;
+
+    //The salesforce user token
+    var sfToken = context.SF_TOKEN;
+
+    //================================================================================
+    // End Context Variables
+    //================================================================================
+    
+    // Use namespace is to tell the code to apply the package namespace or not.
+    // The default should be true.  If you are getting the requested resource
+    // does not exist then try setting value to false.
+    var useNameSpace = true;
+
+    //The salesforce managed package namespace
+    var nameSpace = 'TwilioSF__';
+    
+    //The below statement helps you in debugging
+    let twiml = new Twilio.twiml.MessagingResponse();
+    
+    //twiml.message("Hello World"); --> This statement can send message to your whatsapp number
+    console.log(event.From);
+    console.log(event.To);
+    console.log(event.Body);
+    
+    //The login url
+    var salesforceUrl = 'https://login.salesforce.com';
+
+    if(isSandbox === true) {
+        salesforceUrl = 'https://login.salesforce.com';
+    }
+
+    run();
+
+    /**
+     * Attempts to login with password
+     */
+    
+    function run(){
+        var form = {
+            grant_type: 'password',
+            client_id: clientId,
+            client_secret: clientSecret,
+            username: sfUserName,
+            password:sfPassword+sfToken
+        };
+
+        var formData = querystring.stringify(form);
+        var contentLength = formData.length;
+
+        request({
+            headers: {
+                'Content-Length': contentLength,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            uri: salesforceUrl +'/services/oauth2/token',
+            body: formData,
+            method: 'POST'
+        }, function (err, res, body) {
+            if(res.statusCode == 200){
+                console.log('Success in Getting Token...');
+                var sfAuthReponse = JSON.parse(body);
+                makeCallout(sfAuthReponse);
+            } else{
+                finishWithError('Error Getting Token:'+body);
+            }
+        });
+    }
+
+    /**
+     * make Callout To Salesforce Apex webservice
+     * @param sfAuthReponse (Access Token)
+     */
+    function makeCallout(sfAuthReponse){
+		
+        var options = {
+            uri: sfAuthReponse.instance_url+'/services/apexrest/receive'+'?From='+event.From+'&Body='+event.Body+'&To='+event.To,
+            headers: {
+                'Authorization': 'Bearer ' + sfAuthReponse.access_token,
+            },
+            json:true,
+            method: 'POST'
+        };
+		
+        request(options, processEventResponse);
+    }
+
+    /**
+     * Processes Callout Response
+     * @param error
+     * @param response
+     * @param body
+     */
+     
+    function processEventResponse(error, response, body) {
+        if (!error && (response.statusCode == 200 || response.statusCode == 201)) {
+            console.log('Success Sending the Response from Twilio:  Server responded with: ', body);
+            finishSuccess();
+        } else{
+            console.error('Error while performing Callout:', body);
+            finishWithError('Error while performing Callout:'+body);
+        }
+    }
+
+    function finishSuccess(body){
+        callback();
+    }
+    function finishWithError(body){
+        callback(body);
+    }
+};
