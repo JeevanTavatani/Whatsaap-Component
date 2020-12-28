@@ -4,18 +4,18 @@
     <protected>false</protected>
     <values>
         <field>AccountSid__c</field>
-        <value xsi:type="xsd:string">AC7c3be9533a7a78c3bb2b97af874657f6</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>AuthToken__c</field>
-        <value xsi:type="xsd:string">db79bcb9b9c1358508377f0396bce329</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>From__c</field>
-        <value xsi:type="xsd:string">whatsapp:+14155238886</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>To__c</field>
-        <value xsi:type="xsd:string">whatsapp:+917842324369</value>
+        <value xsi:type="xsd:string"></value>
     </values>
 </CustomMetadata>
