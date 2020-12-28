@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Setting1</label>
+    <protected>false</protected>
+    <values>
+        <field>AccountSid__c</field>
+        <value xsi:type="xsd:string">AC7c3be9533a7a78c3bb2b97af874657f6</value>
+    </values>
+    <values>
+        <field>AuthToken__c</field>
+        <value xsi:type="xsd:string">db79bcb9b9c1358508377f0396bce329</value>
+    </values>
+    <values>
+        <field>From__c</field>
+        <value xsi:type="xsd:string">whatsapp:+14155238886</value>
+    </values>
+    <values>
+        <field>To__c</field>
+        <value xsi:type="xsd:string">whatsapp:+917842324369</value>
+    </values>
+</CustomMetadata>
