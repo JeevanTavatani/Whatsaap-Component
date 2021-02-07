@@ -26,3 +26,6 @@ And then add the code from Twilio Function.txt
 2. You need to configure the Metadata by providing AccountSid, Auth Token, From and To.
 
 3. Use the LWC component in Utility bar and LWC Notification component in Home/Record Page.
+
+# Disclaimer:
+Please don not use this code as it is not much secured. Use at your own risk.
