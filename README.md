@@ -27,5 +27,9 @@ And then add the code from Twilio Function.txt
 
 3. Use the LWC component in Utility bar and LWC Notification component in Home/Record Page.
 
+# Note: 
+1. Need to create Custom-metadata on your own. --> Label: 	Twilio Setting & Fields: AccountSid__c, AuthToken__c, From__c, To__c
+2. Add Remote Site settings: --> 	https://api.twilio.com
+
 # Disclaimer:
 Please do not use this code as it is not much secured. Use at your own risk.
